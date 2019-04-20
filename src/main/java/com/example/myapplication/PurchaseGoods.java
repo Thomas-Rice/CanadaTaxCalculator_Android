@@ -55,7 +55,7 @@ public class PurchaseGoods extends AppCompatActivity {
 
     private void updateBillTotalText() {
         TextView billTotalText = findViewById(R.id.BillTotal);
-        billTotalText.setText("$" + Double.toString(billTotal));
+        billTotalText.setText("$$" + Double.toString(billTotal));
     }
 
     private TextView CreateValueField(TableRow.LayoutParams lp) {
