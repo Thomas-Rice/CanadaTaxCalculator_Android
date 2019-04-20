@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".MainActivity"
+    tools:showIn="@layout/activity_main">
+
+    <Button
+        android:id="@+id/PurchasingGoodsButton"
+        android:layout_width="187dp"
+        android:layout_height="121dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:onClick="navigateToPurchaseGoods"
+        android:text="@string/mainPage_purchasingGoodsButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/purchasingFoodButton"
+        app:layout_constraintTop_toBottomOf="@+id/provincesSpinner" />
+
+    <Button
+        android:id="@+id/purchasingGoodsButton"
+        android:layout_width="187dp"
+        android:layout_height="139dp"
+        android:layout_marginTop="196dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:onClick="navigateToPurchaseGoodsMultiple"
+        android:text="@string/mainPage_purchasingGoodsButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/purchasingFoodButton"
+        app:layout_constraintTop_toBottomOf="@+id/provincesSpinner" />
+
+    <Button
+        android:id="@+id/purchasingFoodButton"
+        android:layout_width="188dp"
+        android:layout_height="121dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="32dp"
+        android:onClick="navigateToPurchaseFood"
+        android:text="@string/mainPage_purchasingFoodButton"
+        app:layout_constraintEnd_toStartOf="@+id/PurchasingGoodsButton"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/provincesSpinner" />
+
+    <Spinner
+        android:id="@+id/provincesSpinner"
+        android:layout_width="379dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:addStatesFromChildren="false"
+        android:entries="@array/provinces"
+        android:spinnerMode="dropdown"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/selectProvinceTitle" />
+
+    <TextView
+        android:id="@+id/selectProvinceTitle"
+        android:layout_width="379dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:text="@string/mainPage_select_province_title"
+        android:textSize="24sp"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="17dp" />
+
+</android.support.constraint.ConstraintLayout>
