@@ -123,7 +123,7 @@
         android:ems="10"
         android:gravity="center"
         android:hint="@string/enter_price_title"
-        android:inputType="number"
+        android:inputType="numberDecimal"
         android:textColor="@android:color/background_dark"
         app:layout_constraintBottom_toTopOf="@+id/calculateButton"
         app:layout_constraintEnd_toEndOf="parent"
@@ -276,13 +276,13 @@
     <ScrollView
         android:id="@+id/scrollView3"
         android:layout_width="395dp"
-        android:layout_height="110dp"
+        android:layout_height="240dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="83dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginBottom="2dp"
+        android:layout_marginBottom="14dp"
         app:layout_constraintBottom_toTopOf="@+id/textView2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -299,17 +299,26 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/price"
-                    android:layout_width="131.66dp"
+                    android:id="@+id/OriginalPrice"
+                    android:layout_width="121.66dp"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:padding="5dp"
-                    android:text="@string/item_price"
+                    android:text="@string/original_price"
+                    android:textAppearance="?android:attr/textAppearanceMedium"></TextView>
+
+                <TextView
+                    android:id="@+id/price"
+                    android:layout_width="121.66dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="@string/price_after_tax"
                     android:textAppearance="?android:attr/textAppearanceMedium"></TextView>
 
                 <TextView
                     android:id="@+id/currencyPrice"
-                    android:layout_width="131.66dp"
+                    android:layout_width="121.66dp"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:padding="5dp"
@@ -318,11 +327,11 @@
 
                 <TextView
                     android:id="@+id/delete"
-                    android:layout_width="131.66dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="30dp"
+                    android:layout_height="match_parent"
                     android:gravity="center"
                     android:padding="5dp"
-                    android:text="@string/delete_item"
+                    android:text="."
                     android:textAppearance="?android:attr/textAppearanceMedium"></TextView>
 
             </TableRow>
@@ -351,10 +360,10 @@
         android:layout_height="30dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="1dp"
+        android:layout_marginTop="14dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginBottom="3dp"
+        android:layout_marginBottom="2dp"
         android:gravity="center"
         android:text="Bill Total"
         android:textColor="@color/design_default_color_primary_dark"
@@ -370,17 +379,15 @@
         android:layout_height="43dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="3dp"
         android:layout_marginEnd="9dp"
         android:layout_marginRight="9dp"
-        android:layout_marginBottom="180dp"
+        android:layout_marginBottom="39dp"
         android:gravity="center"
         android:textColor="@color/design_default_color_primary_dark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </android.support.constraint.ConstraintLayout>

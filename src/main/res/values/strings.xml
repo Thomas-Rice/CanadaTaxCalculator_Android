@@ -15,9 +15,10 @@
     <string name="qst_text">QST:</string>
     <string name="hst_text">HST:</string>
     <string name="total_text">Total</string>
-    <string name="item_price">Item Price</string>
-    <string name="currency_price">Currency Price</string>
-    <string name="delete_item">Delete</string>
+    <string name="price_after_tax">After Tax</string>
+    <string name="original_price">Original</string>
+    <string name="currency_price">GBP</string>
+    <string name="remove_item">Remove</string>
     <string name="calculate_button_text">Calculate</string>
     <string name="add_tip_button_text">Add Tip</string>
     <string name="add_to_bill_button_text">Add To Bill</string>

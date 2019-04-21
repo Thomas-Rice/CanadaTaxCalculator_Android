@@ -18,6 +18,7 @@ public class PurchaseGoods extends AppCompatActivity {
     private String total;
     private TableLayout itemList;
     private double billTotal;
+    private double inputValue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,11 +33,13 @@ public class PurchaseGoods extends AppCompatActivity {
         TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT);
         item.setLayoutParams(lp);
 
-        TextView valueToAdd = CreateValueField(lp);
+        TextView originalValue = CreateOriginalValueField(lp);
+        TextView afterTaxValue = CreateAfterTaxValueField(lp);
         TextView currency = CreateCurrencyValueField(lp);
         ImageButton deleteButton = CreateDeleteButton();
 
-        item.addView(valueToAdd);
+        item.addView(originalValue);
+        item.addView(afterTaxValue);
         item.addView(currency);
         item.addView(deleteButton);
         itemList.addView(item);
@@ -55,10 +58,19 @@ public class PurchaseGoods extends AppCompatActivity {
 
     private void updateBillTotalText() {
         TextView billTotalText = findViewById(R.id.BillTotal);
-        billTotalText.setText("$$" + Double.toString(billTotal));
+        billTotalText.setText("$" + Double.toString(billTotal));
     }
 
-    private TextView CreateValueField(TableRow.LayoutParams lp) {
+    private TextView CreateOriginalValueField(TableRow.LayoutParams lp) {
+        TextView valueToAdd = new TextView(this);
+        valueToAdd.setLayoutParams(lp);
+        valueToAdd.setGravity(Gravity.CENTER);
+        valueToAdd.setPadding(20,0,0,0);
+        valueToAdd.setText(Double.toString(inputValue));
+        return valueToAdd;
+    }
+
+    private TextView CreateAfterTaxValueField(TableRow.LayoutParams lp) {
         TextView valueToAdd = new TextView(this);
         valueToAdd.setLayoutParams(lp);
         valueToAdd.setGravity(Gravity.CENTER);
@@ -66,6 +78,7 @@ public class PurchaseGoods extends AppCompatActivity {
         valueToAdd.setText(total);
         return valueToAdd;
     }
+
     private TextView CreateCurrencyValueField(TableRow.LayoutParams lp) {
         TextView valueToAdd = new TextView(this);
         valueToAdd.setLayoutParams(lp);
@@ -110,7 +123,6 @@ public class PurchaseGoods extends AppCompatActivity {
     }
 
     private void RemoveFromBillTotal(Double value) {
-//        double value = Double.parseDouble(total);
         billTotal -= value;
         billTotal = RoundNumber(billTotal);
 
@@ -120,7 +132,7 @@ public class PurchaseGoods extends AppCompatActivity {
     public void SetValues(View view) {
         TextView priceInputView = findViewById(R.id.priceInput);
 
-        double inputValue = Integer.parseInt(priceInputView.getText().toString());
+        inputValue = Double.parseDouble(priceInputView.getText().toString());
 
         double gstValue = CalculateGST(inputValue);
         SetGSTText(gstValue);
