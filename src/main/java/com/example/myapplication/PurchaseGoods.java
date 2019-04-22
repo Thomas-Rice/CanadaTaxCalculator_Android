@@ -1,11 +1,18 @@
 package com.example.myapplication;
 
+
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -14,119 +21,126 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
+
 public class PurchaseGoods extends AppCompatActivity {
     private String total;
-    private TableLayout itemList;
-    private double billTotal;
+    private Boolean wasCalled = false;
     private double inputValue;
+    private BillList billList = null;
+    private final static String TAG = "TestActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_purchase_goods);
-    }
+        BottomNavigationViewBehaviour();
 
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-    public void CreateTaleRow(View view){
-        itemList = findViewById(R.id.ItemsList);
-        TableRow item = new TableRow(this);
-        TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT);
-        item.setLayoutParams(lp);
-
-        TextView originalValue = CreateOriginalValueField(lp);
-        TextView afterTaxValue = CreateAfterTaxValueField(lp);
-        TextView currency = CreateCurrencyValueField(lp);
-        ImageButton deleteButton = CreateDeleteButton();
-
-        item.addView(originalValue);
-        item.addView(afterTaxValue);
-        item.addView(currency);
-        item.addView(deleteButton);
-        itemList.addView(item);
-
-        AddToBillTotal();
-        Toast.makeText(PurchaseGoods.this, "Created", Toast.LENGTH_SHORT).show();
-    }
-
-    private void AddToBillTotal() {
-        double value = Double.parseDouble(total);
-        billTotal += value;
-        billTotal = RoundNumber(billTotal);
-
-        updateBillTotalText();
-    }
-
-    private void updateBillTotalText() {
-        TextView billTotalText = findViewById(R.id.BillTotal);
-        billTotalText.setText("$" + Double.toString(billTotal));
-    }
-
-    private TextView CreateOriginalValueField(TableRow.LayoutParams lp) {
-        TextView valueToAdd = new TextView(this);
-        valueToAdd.setLayoutParams(lp);
-        valueToAdd.setGravity(Gravity.CENTER);
-        valueToAdd.setPadding(20,0,0,0);
-        valueToAdd.setText(Double.toString(inputValue));
-        return valueToAdd;
-    }
-
-    private TextView CreateAfterTaxValueField(TableRow.LayoutParams lp) {
-        TextView valueToAdd = new TextView(this);
-        valueToAdd.setLayoutParams(lp);
-        valueToAdd.setGravity(Gravity.CENTER);
-        valueToAdd.setPadding(20,0,0,0);
-        valueToAdd.setText(total);
-        return valueToAdd;
-    }
-
-    private TextView CreateCurrencyValueField(TableRow.LayoutParams lp) {
-        TextView valueToAdd = new TextView(this);
-        valueToAdd.setLayoutParams(lp);
-        valueToAdd.setGravity(Gravity.CENTER);
-        valueToAdd.setPadding(20,0,0,0);
-        double value = Double.parseDouble(total);
-        valueToAdd.setText(Double.toString(value));
-        return valueToAdd;
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-    private ImageButton CreateDeleteButton() {
-        ImageButton deleteButton = new ImageButton(this);
-        Drawable deleteImage = getResources().getDrawable(R.drawable.rectangle);
-        Drawable imageBackground = getResources().getDrawable(android.R.color.transparent);
-        deleteButton.setImageDrawable(deleteImage);
-        deleteButton.setBackground(imageBackground);
-        deleteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DeleteRow(v);
+        Intent intent = this.getIntent();
+        Bundle bundle = intent.getExtras();
+        if(bundle != null){
+            if(bundle.getSerializable("test" ) != null){
+                billList = (BillList) bundle.getSerializable("test");
             }
-        });
-        return deleteButton;
+        }
+        else{
+            billList = new BillList();
+            billList.Bills = new ArrayList<>();
+        }
+
+        Log.i(TAG, "On Create .....");
     }
 
-    public void DeleteRow(View view){
-
-        TableRow parentRow = (TableRow) view.getParent();
-        ViewGroup container = ((ViewGroup) parentRow.getParent());
-
-        TextView textView = (TextView)parentRow.getChildAt(0);
-        String valueToRemoveText = textView.getText().toString();
-        double valueToRemove = Double.parseDouble(valueToRemoveText);
-
-        RemoveFromBillTotal(valueToRemove);
-        container.removeView(parentRow);
-        container.invalidate();
-
-
-        Toast.makeText(PurchaseGoods.this, "Deleted", Toast.LENGTH_SHORT).show();
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean("wasCalled", wasCalled);
     }
 
-    private void RemoveFromBillTotal(Double value) {
-        billTotal -= value;
-        billTotal = RoundNumber(billTotal);
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        wasCalled = savedInstanceState.getBoolean("wasCalled");
+    }
 
-        updateBillTotalText();
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.i(TAG, "On Destroy .....");
+    }
+    /* (non-Javadoc)
+     * @see android.app.Activity#onPause()
+     */
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.i(TAG, "On Stop .....");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.i(TAG, "On Pause .....");
+    }
+
+    /* (non-Javadoc)
+     * @see android.app.Activity#onRestart()
+     */
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.i(TAG, "On Restart .....");
+    }
+
+    /* (non-Javadoc)
+     * @see android.app.Activity#onResume()
+     */
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.i(TAG, "On Resume .....");
+    }
+
+    /* (non-Javadoc)
+     * @see android.app.Activity#onStart()
+     */
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.i(TAG, "On Start .....");
+    }
+
+    public void BottomNavigationViewBehaviour(){
+        BottomNavigationView bottomNavigationView = findViewById(R.id.BottomNavigation);
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(
+                new BottomNavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.bill:
+                                Intent intent = new Intent(PurchaseGoods.this, BillActivity.class);
+                                CreateTaleRowValue();
+                                Bundle bundle = new Bundle();
+                                bundle.putSerializable("test", billList);
+                                intent.putExtras(bundle);
+                                startActivity(intent);
+                                break;
+                        }
+                        return true;
+                    }
+                });
+    }
+
+    public void CreateTaleRowValue(){
+        Bill test = new Bill();
+        test.OriginalValue = Double.toString(inputValue);
+        test.ValueAfterTax = total;
+        test.CurrencyConvertedValue = "£15";
+        billList.Bills.add(test);
     }
 
     public void SetValues(View view) {
@@ -159,7 +173,7 @@ public class PurchaseGoods extends AppCompatActivity {
         if (CheckIfGreaterThanZero(inputValue)) return 0.0;
 
         double GST = inputValue * 0.05;
-        double result = RoundNumber(GST);
+        double result = Math.RoundNumber(GST);
         return result;
     }
 
@@ -167,7 +181,7 @@ public class PurchaseGoods extends AppCompatActivity {
         if (CheckIfGreaterThanZero(inputValue)) return 0.0;
 
         double QST = inputValue * 0.0975;
-        double result = RoundNumber(QST);
+        double result = Math.RoundNumber(QST);
         return result;
     }
 
@@ -212,10 +226,4 @@ public class PurchaseGoods extends AppCompatActivity {
         }
         return false;
     }
-
-    private double RoundNumber(double billTotal) {
-        return (double) Math.round(billTotal * 100) / 100;
-    }
-
-
 }

@@ -13,11 +13,9 @@
         android:layout_width="142dp"
         android:layout_height="39dp"
         android:layout_marginTop="24dp"
-        android:layout_marginBottom="20dp"
         android:gravity="center"
         android:onClick="CreateTaleRow"
         android:text="@string/add_to_bill_button_text"
-        app:layout_constraintBottom_toTopOf="@+id/scrollView3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/AddTipButton"
@@ -151,10 +149,8 @@
         android:layout_width="142dp"
         android:layout_height="39dp"
         android:layout_marginTop="24dp"
-        android:layout_marginBottom="20dp"
         android:gravity="center"
         android:text="@string/add_tip_button_text"
-        app:layout_constraintBottom_toTopOf="@+id/scrollView3"
         app:layout_constraintEnd_toStartOf="@+id/addToBillButton"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -273,71 +269,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ScrollView
-        android:id="@+id/scrollView3"
-        android:layout_width="395dp"
-        android:layout_height="240dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="83dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="14dp"
-        app:layout_constraintBottom_toTopOf="@+id/textView2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/calculateButton">
-
-        <TableLayout
-            android:id="@+id/ItemsList"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TableRow
-                android:id="@+id/ItemListHeaders"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/OriginalPrice"
-                    android:layout_width="121.66dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:padding="5dp"
-                    android:text="@string/original_price"
-                    android:textAppearance="?android:attr/textAppearanceMedium"></TextView>
-
-                <TextView
-                    android:id="@+id/price"
-                    android:layout_width="121.66dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:padding="5dp"
-                    android:text="@string/price_after_tax"
-                    android:textAppearance="?android:attr/textAppearanceMedium"></TextView>
-
-                <TextView
-                    android:id="@+id/currencyPrice"
-                    android:layout_width="121.66dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:padding="5dp"
-                    android:text="@string/currency_price"
-                    android:textAppearance="?android:attr/textAppearanceMedium"></TextView>
-
-                <TextView
-                    android:id="@+id/delete"
-                    android:layout_width="30dp"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:padding="5dp"
-                    android:text="."
-                    android:textAppearance="?android:attr/textAppearanceMedium"></TextView>
-
-            </TableRow>
-        </TableLayout>
-    </ScrollView>
-
     <ImageView
         android:id="@+id/CurrencyIcon"
         android:layout_width="31dp"
@@ -354,40 +285,36 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@android:drawable/ic_menu_myplaces" />
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="395dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="14dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="2dp"
-        android:gravity="center"
-        android:text="Bill Total"
-        android:textColor="@color/design_default_color_primary_dark"
-        app:layout_constraintBottom_toTopOf="@+id/BillTotal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scrollView3" />
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/BottomNavigation"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:clickable="false"
+        app:itemBackground="@color/colorPrimary"
+        app:itemIconTint="@drawable/selector"
+        app:itemTextColor="@drawable/selector"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:menu="@menu/bottom_bar" />
 
     <TextView
-        android:id="@+id/BillTotal"
-        android:layout_width="394dp"
-        android:layout_height="43dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginEnd="9dp"
-        android:layout_marginRight="9dp"
-        android:layout_marginBottom="39dp"
-        android:gravity="center"
-        android:textColor="@color/design_default_color_primary_dark"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:id="@+id/textView2"
+        android:layout_width="198dp"
+        android:layout_height="41dp"
+        android:layout_marginStart="95dp"
+        android:layout_marginLeft="95dp"
+        android:layout_marginTop="95dp"
+        android:layout_marginEnd="118dp"
+        android:layout_marginRight="118dp"
+        android:layout_marginBottom="195dp"
+        android:text="Bill Total"
+        app:layout_constraintBottom_toTopOf="@+id/BottomNavigation"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addToBillButton" />
 
 
 </android.support.constraint.ConstraintLayout>
