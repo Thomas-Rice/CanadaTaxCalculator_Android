@@ -19,7 +19,7 @@ public class PurchaseGoods extends AppCompatActivity {
     private Boolean wasCalled = false;
     private double inputValue;
     private BillList billList;
-    private final static String TAG = "TestActivity";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,9 +37,9 @@ public class PurchaseGoods extends AppCompatActivity {
         else{
             billList = new BillList();
             billList.Bills = new ArrayList<>();
+            billList.Total = "0";
         }
-
-        Log.i(TAG, "On Create .....");
+        SetBillTotalText();
     }
 
     @Override
@@ -83,6 +83,14 @@ public class PurchaseGoods extends AppCompatActivity {
         billItem.ValueAfterTax = total;
         billItem.CurrencyConvertedValue = "£15";
         billList.Bills.add(billItem);
+
+        //TODO don't keep converting back and forth
+        double total = Double.parseDouble(billList.Total);
+        double afterTax = Double.parseDouble(billItem.ValueAfterTax);
+        double newTotal = total += afterTax;
+        billList.Total = String.format("%.2f", newTotal);
+
+        SetBillTotalText();
     }
 
     public void SetValues(View view) {
@@ -99,6 +107,11 @@ public class PurchaseGoods extends AppCompatActivity {
         total = CalculateTotal(inputValue, gstValue, qstValue);
         SetTotalText(total);
         SetGBPText();
+    }
+
+    public void SetBillTotalText(){
+        TextView billTotalText = findViewById(R.id.BillTotalValue);
+        billTotalText.setText(billList.Total);
     }
 
     public void SetTotalWithTipText(View view){
