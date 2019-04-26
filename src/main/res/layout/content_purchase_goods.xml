@@ -14,7 +14,7 @@
         android:layout_height="39dp"
         android:layout_marginTop="24dp"
         android:gravity="center"
-        android:onClick="CreateTaleRow"
+        android:onClick="CreateBillItem"
         android:text="@string/add_to_bill_button_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -63,46 +63,22 @@
 
             <TextView
                 android:id="@+id/currencyText"
-                android:layout_width="40dp"
+                android:layout_width="38dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="GBP"
+                android:text="GBP: "
                 android:textColor="@android:color/background_dark"
                 tools:layout_editor_absoluteX="29dp"
                 tools:layout_editor_absoluteY="227dp" />
 
             <TextView
                 android:id="@+id/currencyValue"
-                android:layout_width="156dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:textColor="@android:color/background_dark"
                 tools:layout_editor_absoluteX="218dp"
                 tools:layout_editor_absoluteY="306dp" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/CurrencyText2"
-                android:layout_width="39dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="EUR"
-                android:textColor="@android:color/background_dark"
-                tools:layout_editor_absoluteX="29dp"
-                tools:layout_editor_absoluteY="227dp" />
-
-            <TextView
-                android:id="@+id/CurrencyValue2"
-                android:layout_width="156dp"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:textColor="@android:color/background_dark"
-                tools:layout_editor_absoluteX="218dp"
-                tools:layout_editor_absoluteY="395dp" />
         </TableRow>
 
     </TableLayout>
@@ -150,6 +126,7 @@
         android:layout_height="39dp"
         android:layout_marginTop="24dp"
         android:gravity="center"
+        android:onClick="SetTotalWithTipText"
         android:text="@string/add_tip_button_text"
         app:layout_constraintEnd_toStartOf="@+id/addToBillButton"
         app:layout_constraintHorizontal_bias="0.5"

@@ -2,34 +2,23 @@ package com.example.myapplication;
 
 
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class PurchaseGoods extends AppCompatActivity {
     private String total;
     private Boolean wasCalled = false;
     private double inputValue;
-    private BillList billList = null;
+    private BillList billList;
     private final static String TAG = "TestActivity";
 
     @Override
@@ -65,54 +54,6 @@ public class PurchaseGoods extends AppCompatActivity {
         wasCalled = savedInstanceState.getBoolean("wasCalled");
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.i(TAG, "On Destroy .....");
-    }
-    /* (non-Javadoc)
-     * @see android.app.Activity#onPause()
-     */
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Log.i(TAG, "On Stop .....");
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.i(TAG, "On Pause .....");
-    }
-
-    /* (non-Javadoc)
-     * @see android.app.Activity#onRestart()
-     */
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        Log.i(TAG, "On Restart .....");
-    }
-
-    /* (non-Javadoc)
-     * @see android.app.Activity#onResume()
-     */
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.i(TAG, "On Resume .....");
-    }
-
-    /* (non-Javadoc)
-     * @see android.app.Activity#onStart()
-     */
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Log.i(TAG, "On Start .....");
-    }
-
     public void BottomNavigationViewBehaviour(){
         BottomNavigationView bottomNavigationView = findViewById(R.id.BottomNavigation);
 
@@ -123,7 +64,6 @@ public class PurchaseGoods extends AppCompatActivity {
                         switch (item.getItemId()) {
                             case R.id.bill:
                                 Intent intent = new Intent(PurchaseGoods.this, BillActivity.class);
-                                CreateTaleRowValue();
                                 Bundle bundle = new Bundle();
                                 bundle.putSerializable("test", billList);
                                 intent.putExtras(bundle);
@@ -135,12 +75,14 @@ public class PurchaseGoods extends AppCompatActivity {
                 });
     }
 
-    public void CreateTaleRowValue(){
-        Bill test = new Bill();
-        test.OriginalValue = Double.toString(inputValue);
-        test.ValueAfterTax = total;
-        test.CurrencyConvertedValue = "£15";
-        billList.Bills.add(test);
+    public void CreateBillItem(View view){
+        int size = billList.Bills.size() + 1;
+        Bill billItem = new Bill();
+        billItem.OriginalValue = Double.toString(inputValue);
+        billItem.id = size;
+        billItem.ValueAfterTax = total;
+        billItem.CurrencyConvertedValue = "£15";
+        billList.Bills.add(billItem);
     }
 
     public void SetValues(View view) {
@@ -156,6 +98,29 @@ public class PurchaseGoods extends AppCompatActivity {
 
         total = CalculateTotal(inputValue, gstValue, qstValue);
         SetTotalText(total);
+        SetGBPText();
+    }
+
+    public void SetTotalWithTipText(View view){
+        double tip =  CalculateAddTip();
+        total = String.format("%.2f", tip);
+        SetTotalText(total);
+    }
+
+    //TODO add the option to choose tip amount
+    public double CalculateAddTip(){
+        double totalValue = Double.parseDouble(total);
+        return totalValue * 1.1;
+    }
+
+    public void SetGBPText(){
+        TextView currencyValue = findViewById(R.id.currencyValue);
+        double value = ConvertGBP();
+        currencyValue.setText(String.format("%.2f", value));
+    }
+
+    public double ConvertGBP(){
+        return Double.parseDouble(total) * 0.575304;
     }
 
     public String CalculateTotal(double inputValue, double gstValue, double qstValue) {
@@ -164,7 +129,7 @@ public class PurchaseGoods extends AppCompatActivity {
         if (CheckIfGreaterThanZero(inputValue, gstValue, qstValue))
             return Double.toString(0.0);
 
-        Double result = inputValue +  gstValue + qstValue;
+        double result = inputValue +  gstValue + qstValue;
 
         return String.format("%.2f", result);
     }

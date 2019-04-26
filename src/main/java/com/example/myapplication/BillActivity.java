@@ -36,7 +36,14 @@ public class BillActivity extends AppCompatActivity {
         Bundle bundle = intent.getExtras();
         billListData = (BillList) bundle.getSerializable("test");
 
-        Test();
+        UpdateBillTotal();
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        super.onBackPressed();
+        sendBundle();
     }
 
     public void BottomNavigationViewBehaviour(){
@@ -48,13 +55,7 @@ public class BillActivity extends AppCompatActivity {
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.calculator:
-                                Intent intent = new Intent(BillActivity.this, PurchaseGoods.class);
-
-                                Bundle bundle = new Bundle();
-                                bundle.putSerializable("test", billListData);
-                                intent.putExtras(bundle);
-
-                                startActivity(intent);
+                                sendBundle();
                                 break;
                         }
                         return true;
@@ -62,11 +63,23 @@ public class BillActivity extends AppCompatActivity {
                 });
     }
 
+    private void sendBundle() {
+        Intent intent = new Intent(BillActivity.this, PurchaseGoods.class);
+
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("test", billListData);
+        intent.putExtras(bundle);
+
+        startActivity(intent);
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-    public void Test(){
+    public void UpdateBillTotal(){
         for (Bill bill : billListData.Bills){
-            CreateTableRow(bill.OriginalValue, bill.ValueAfterTax, bill.CurrencyConvertedValue);
-            billTotal += Double.parseDouble(bill.ValueAfterTax);
+            if(bill.ValueAfterTax != null && bill.OriginalValue != "0.0"){
+                CreateTableRow(bill.OriginalValue, bill.ValueAfterTax, Integer.toString(bill.id));
+                billTotal += Double.parseDouble(bill.ValueAfterTax);
+            }
         }
         updateBillTotalText();
     }
@@ -155,17 +168,28 @@ public class BillActivity extends AppCompatActivity {
         container.removeView(parentRow);
         container.invalidate();
 
+        TextView rowIdTextView = (TextView) parentRow.getChildAt(2);
+        removeFromBillList(rowIdTextView);
 
         Toast.makeText(BillActivity.this, "Deleted", Toast.LENGTH_SHORT).show();
     }
 
-    private void RemoveFromBillTotal(Double value) {
+    private void removeFromBillList(TextView rowIdTextView) {
+        double rowId = Double.parseDouble(rowIdTextView.getText().toString());
+        int index = 0;
+
+        for(Bill bill : billListData.Bills){
+            if(bill.id == rowId){
+                 index = billListData.Bills.indexOf(bill);
+            }
+        }
+        billListData.Bills.remove(index);
+    }
+
+    private void RemoveFromBillTotal(double value) {
         billTotal -= value;
         billTotal = Math.RoundNumber(billTotal);
 
-//        billListData.Bills.remove();
-
-//        When create row set an id and then delete from list via id
         updateBillTotalText();
     }
 

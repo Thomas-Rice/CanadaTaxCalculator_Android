@@ -6,4 +6,5 @@ class Bill implements Serializable {
     public String OriginalValue;
     public String ValueAfterTax;
     public String CurrencyConvertedValue;
+    public int id;
 }
