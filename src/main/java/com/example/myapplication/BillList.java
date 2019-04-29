@@ -6,4 +6,5 @@ import java.util.ArrayList;
 public class BillList implements Serializable
 {
     public ArrayList<Bill> Bills;
+    public String Total;
 }

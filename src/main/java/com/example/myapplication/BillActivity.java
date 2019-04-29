@@ -37,6 +37,7 @@ public class BillActivity extends AppCompatActivity {
         billListData = (BillList) bundle.getSerializable("test");
 
         UpdateBillTotal();
+        SetGBPText();
     }
 
     @Override
@@ -56,6 +57,7 @@ public class BillActivity extends AppCompatActivity {
                         switch (item.getItemId()) {
                             case R.id.calculator:
                                 sendBundle();
+                                SetGBPText();
                                 break;
                         }
                         return true;
@@ -71,6 +73,16 @@ public class BillActivity extends AppCompatActivity {
         intent.putExtras(bundle);
 
         startActivity(intent);
+    }
+
+    public void SetGBPText(){
+        TextView currencyValue = findViewById(R.id.currencyValue);
+        double value = ConvertGBP();
+        currencyValue.setText(String.format("%.2f", value));
+    }
+
+    public double ConvertGBP(){
+        return Double.parseDouble(billListData.Total) * 0.575304;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
@@ -171,6 +183,7 @@ public class BillActivity extends AppCompatActivity {
         TextView rowIdTextView = (TextView) parentRow.getChildAt(2);
         removeFromBillList(rowIdTextView);
 
+        SetGBPText();
         Toast.makeText(BillActivity.this, "Deleted", Toast.LENGTH_SHORT).show();
     }
 
@@ -184,6 +197,7 @@ public class BillActivity extends AppCompatActivity {
             }
         }
         billListData.Bills.remove(index);
+
     }
 
     private void RemoveFromBillTotal(double value) {
@@ -191,6 +205,7 @@ public class BillActivity extends AppCompatActivity {
         billTotal = Math.RoundNumber(billTotal);
 
         updateBillTotalText();
+        billListData.Total = Double.toString(billTotal);
     }
 
 

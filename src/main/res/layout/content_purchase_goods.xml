@@ -8,6 +8,19 @@
     tools:context=".PurchaseGoods"
     tools:showIn="@layout/activity_purchase_goods">
 
+    <TextView
+        android:id="@+id/BillTotalValue"
+        android:layout_width="89dp"
+        android:layout_height="41dp"
+        android:layout_marginTop="263dp"
+        android:layout_marginEnd="233dp"
+        android:layout_marginRight="233dp"
+        android:layout_marginBottom="27dp"
+        app:layout_constraintBottom_toTopOf="@+id/BottomNavigation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/BillTotal"
+        app:layout_constraintTop_toBottomOf="@+id/AddTipButton" />
+
     <Button
         android:id="@+id/addToBillButton"
         android:layout_width="142dp"
@@ -278,20 +291,16 @@
         app:menu="@menu/bottom_bar" />
 
     <TextView
-        android:id="@+id/textView2"
-        android:layout_width="198dp"
+        android:id="@+id/BillTotal"
+        android:layout_width="89dp"
         android:layout_height="41dp"
-        android:layout_marginStart="95dp"
-        android:layout_marginLeft="95dp"
-        android:layout_marginTop="95dp"
-        android:layout_marginEnd="118dp"
-        android:layout_marginRight="118dp"
-        android:layout_marginBottom="195dp"
+        android:layout_marginTop="263dp"
+        android:layout_marginBottom="28dp"
         android:text="Bill Total"
         app:layout_constraintBottom_toTopOf="@+id/BottomNavigation"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/BillTotalValue"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addToBillButton" />
+        app:layout_constraintTop_toBottomOf="@+id/AddTipButton" />
 
 
 </android.support.constraint.ConstraintLayout>

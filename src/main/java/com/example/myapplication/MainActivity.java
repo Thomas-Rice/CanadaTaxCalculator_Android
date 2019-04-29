@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +21,9 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         CreateProvincesSpinner();
+        JsonLoader test = new JsonLoader(this);
+        test.test();
+
     }
 
     private void CreateProvincesSpinner() {

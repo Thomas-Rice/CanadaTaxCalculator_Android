@@ -8,3 +8,4 @@ class Bill implements Serializable {
     public String CurrencyConvertedValue;
     public int id;
 }
+

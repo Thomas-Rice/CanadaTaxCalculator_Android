@@ -19,7 +19,7 @@ public class PurchaseGoods extends AppCompatActivity {
     private Boolean wasCalled = false;
     private double inputValue;
     private BillList billList;
-
+    private double currencyConversionValue = 0.575304;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,7 +133,7 @@ public class PurchaseGoods extends AppCompatActivity {
     }
 
     public double ConvertGBP(){
-        return Double.parseDouble(total) * 0.575304;
+        return Double.parseDouble(total) * currencyConversionValue;
     }
 
     public String CalculateTotal(double inputValue, double gstValue, double qstValue) {
