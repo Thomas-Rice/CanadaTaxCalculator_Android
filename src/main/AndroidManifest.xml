@@ -11,22 +11,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".BillActivity"></activity>
         <activity
-            android:name=".PurchaseMultipleGoods"
-            android:label="@string/mainPage_purchasingGoodsMultipleButton"
-            android:parentActivityName=".PurchaseFood"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".PurchaseFood"
-            android:label="@string/mainPage_purchasingFoodButton"
-            android:parentActivityName=".PurchaseFood"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".PurchaseGoods"
-            android:label="@string/mainPage_purchasingGoodsButton"
-            android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".MainActivity"
             android:label="@string/mainPage_title"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>

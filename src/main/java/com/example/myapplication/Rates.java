@@ -1,6 +1,10 @@
 package com.example.myapplication;
 
-public class Rates {
+import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
+
+public class Rates implements Serializable {
     private float BGN;
     private float NZD;
     private float ILS;

@@ -1,10 +1,12 @@
 package com.example.myapplication;
 
 
-public class ConversionRates {
+import java.io.Serializable;
+
+public class ConversionRates implements Serializable {
 
         private String base;
-        Rates RatesObject;
+        Rates rates;
         private String date;
 
 
@@ -15,7 +17,7 @@ public class ConversionRates {
         }
 
         public Rates getRates() {
-            return RatesObject;
+            return rates;
         }
 
         public String getDate() {
@@ -29,7 +31,7 @@ public class ConversionRates {
         }
 
         public void setRates(Rates ratesObject) {
-            this.RatesObject = ratesObject;
+            this.rates = ratesObject;
         }
 
         public void setDate(String date) {

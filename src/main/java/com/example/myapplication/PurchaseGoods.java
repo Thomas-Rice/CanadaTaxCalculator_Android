@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 
 public class PurchaseGoods extends AppCompatActivity {
@@ -19,13 +20,16 @@ public class PurchaseGoods extends AppCompatActivity {
     private Boolean wasCalled = false;
     private double inputValue;
     private BillList billList;
-    private double currencyConversionValue = 0.575304;
+    private double currencyConversionValue;
+    private Map<String, String> conversionRates;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_purchase_goods);
         BottomNavigationViewBehaviour();
+
+        SetConversionRates("GBP");
 
         Intent intent = this.getIntent();
         Bundle bundle = intent.getExtras();
@@ -40,6 +44,14 @@ public class PurchaseGoods extends AppCompatActivity {
             billList.Total = "0";
         }
         SetBillTotalText();
+    }
+
+    private void SetConversionRates(String gbp) {
+        JsonLoader CurrencyConversions = new JsonLoader(this);
+        conversionRates = CurrencyConversions.GetRates();
+
+        currencyConversionValue = Double.parseDouble(conversionRates.get(gbp));
+
     }
 
     @Override

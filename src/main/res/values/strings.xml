@@ -11,8 +11,8 @@
     <string name="mainPage_select_province_title">Select Province</string>
     <string name="enter_price_title">Enter Price</string>
     <string name="amount_text">Amount</string>
-    <string name="gst_text">GST:</string>
-    <string name="qst_text">QST:</string>
+    <string name="gst_text">Province:</string>
+    <string name="qst_text">Canada:</string>
     <string name="hst_text">HST:</string>
     <string name="total_text">Total</string>
     <string name="price_after_tax">After Tax</string>

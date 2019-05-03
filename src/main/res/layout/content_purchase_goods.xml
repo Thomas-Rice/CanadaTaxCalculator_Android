@@ -19,7 +19,8 @@
         app:layout_constraintBottom_toTopOf="@+id/BottomNavigation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/BillTotal"
-        app:layout_constraintTop_toBottomOf="@+id/AddTipButton" />
+        app:layout_constraintTop_toBottomOf="@+id/AddTipButton"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/addToBillButton"
@@ -218,26 +219,6 @@
                 tools:layout_editor_absoluteX="218dp"
                 tools:layout_editor_absoluteY="395dp" />
 
-            <TextView
-                android:id="@+id/hstText"
-                android:layout_width="wrap_content"
-                android:layout_height="29dp"
-                android:gravity="center"
-                android:text="@string/hst_text"
-                android:textColor="@android:color/background_dark"
-                app:autoSizeTextType="uniform"
-                tools:layout_editor_absoluteX="29dp"
-                tools:layout_editor_absoluteY="227dp" />
-
-            <TextView
-                android:id="@+id/hstValue"
-                android:layout_width="83dp"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:textColor="@android:color/background_dark"
-                app:autoSizeTextType="uniform"
-                tools:layout_editor_absoluteX="218dp"
-                tools:layout_editor_absoluteY="395dp" />
         </TableRow>
 
     </TableLayout>
@@ -250,7 +231,7 @@
         android:layout_marginLeft="21dp"
         android:layout_marginTop="49dp"
         android:gravity="center"
-        android:text="$3000"
+        android:text="$0"
         android:textColor="@android:color/background_dark"
         android:textSize="80sp"
         app:autoSizeMaxTextSize="80dp"
@@ -294,6 +275,8 @@
         android:id="@+id/BillTotal"
         android:layout_width="89dp"
         android:layout_height="41dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
         android:layout_marginTop="263dp"
         android:layout_marginBottom="28dp"
         android:text="Bill Total"

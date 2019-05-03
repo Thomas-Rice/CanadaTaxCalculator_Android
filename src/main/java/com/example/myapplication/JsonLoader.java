@@ -5,9 +5,12 @@ import android.content.Context;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Type;
+import java.util.Map;
 
 public class JsonLoader {
     private Context context;
@@ -16,11 +19,18 @@ public class JsonLoader {
         this.context = context;
     }
 
-    public void test(){
+    public Map<String, String> GetRates(){
         String jsonResponse = loadJSONFromAsset();
+
         Gson gson = new GsonBuilder().create();
-        ConversionRates.Rates foodMenuJsonResponse = gson.fromJson(jsonResponse, ConversionRates.Rates.class);
-        System.out.println(foodMenuJsonResponse);
+        Rates rates = gson.fromJson(jsonResponse, ConversionRates.class).getRates();
+        //ToDo this might need some work as it converts back to json
+        String ratesString = gson.toJson(rates);
+
+        Type mapType = new TypeToken<Map<String, String>>(){}.getType();
+        Map<String, String> mapObj = gson.fromJson(ratesString, mapType);
+
+        return mapObj;
     }
 
     //Load JSON file from Assets folder.
