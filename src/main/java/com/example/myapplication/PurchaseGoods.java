@@ -6,12 +6,16 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 
@@ -21,7 +25,10 @@ public class PurchaseGoods extends AppCompatActivity {
     private double inputValue;
     private BillList billList;
     private double currencyConversionValue;
+    private Map<String, String> taxes;
+    private double countryTax;
     private Map<String, String> conversionRates;
+    private String province;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +36,9 @@ public class PurchaseGoods extends AppCompatActivity {
         setContentView(R.layout.activity_purchase_goods);
         BottomNavigationViewBehaviour();
 
-        SetConversionRates("GBP");
+        JsonLoader jsonLoader = new JsonLoader(this);
+        SetConversionRates("GBP", jsonLoader);
+        LoadProvinces(jsonLoader);
 
         Intent intent = this.getIntent();
         Bundle bundle = intent.getExtras();
@@ -46,12 +55,33 @@ public class PurchaseGoods extends AppCompatActivity {
         SetBillTotalText();
     }
 
-    private void SetConversionRates(String gbp) {
-        JsonLoader CurrencyConversions = new JsonLoader(this);
-        conversionRates = CurrencyConversions.GetRates();
+    private void LoadProvinces(JsonLoader jsonLoader) {
+        Spinner provinceSpinner = findViewById(R.id.provincesSpinner);
+        taxes = jsonLoader.GetProvinceTaxes();
+        countryTax = jsonLoader.GetCountryTax();
+        final List<String> provinces = new ArrayList(taxes.keySet());
 
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, provinces);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        provinceSpinner.setAdapter(dataAdapter);
+
+        provinceSpinner.setOnItemSelectedListener(
+                new AdapterView.OnItemSelectedListener() {
+                    public void onItemSelected(
+                            AdapterView<?> parent, View view, int position, long id) {
+                                province = provinces.get(position);
+                                Toast.makeText(getApplicationContext(), taxes.get(province), Toast.LENGTH_SHORT).show();
+                                SetValues(view);
+                    }
+
+                    public void onNothingSelected(AdapterView<?> parent) { }
+                });
+    }
+
+    private void SetConversionRates(String gbp, JsonLoader jsonLoader) {
+        conversionRates = jsonLoader.GetRates();
         currencyConversionValue = Double.parseDouble(conversionRates.get(gbp));
-
     }
 
     @Override
@@ -110,10 +140,10 @@ public class PurchaseGoods extends AppCompatActivity {
 
         inputValue = Double.parseDouble(priceInputView.getText().toString());
 
-        double gstValue = CalculateGST(inputValue);
+        double gstValue = CalculateCanadaTax(inputValue);
         SetGSTText(gstValue);
 
-        double qstValue = CalculateQST(inputValue);
+        double qstValue = CalculateProvinceTax(inputValue, province);
         SetQSTText(qstValue);
 
         total = CalculateTotal(inputValue, gstValue, qstValue);
@@ -149,28 +179,28 @@ public class PurchaseGoods extends AppCompatActivity {
     }
 
     public String CalculateTotal(double inputValue, double gstValue, double qstValue) {
-        if (CheckIfValuesAreGreaterThanMaxValue(inputValue, gstValue, qstValue))
-            return Double.toString(0.0);
-        if (CheckIfGreaterThanZero(inputValue, gstValue, qstValue))
-            return Double.toString(0.0);
+//        if (CheckIfValuesAreGreaterThanMaxValue(inputValue, gstValue, qstValue))
+//            return Double.toString(0.0);
+//        if (CheckIfGreaterThanZero(inputValue, gstValue, qstValue))
+//            return Double.toString(0.0);
 
         double result = inputValue +  gstValue + qstValue;
 
         return String.format("%.2f", result);
     }
 
-    public double CalculateGST(double inputValue) {
+    public double CalculateCanadaTax(double inputValue) {
         if (CheckIfGreaterThanZero(inputValue)) return 0.0;
-
-        double GST = inputValue * 0.05;
+        double GST = inputValue * (countryTax/100);
         double result = Math.RoundNumber(GST);
         return result;
     }
 
-    public double CalculateQST(double inputValue) {
+    public double CalculateProvinceTax(double inputValue, String province) {
         if (CheckIfGreaterThanZero(inputValue)) return 0.0;
 
-        double QST = inputValue * 0.0975;
+        double tax = Double.parseDouble(taxes.get(province));
+        double QST = inputValue * (tax/100);
         double result = Math.RoundNumber(QST);
         return result;
     }

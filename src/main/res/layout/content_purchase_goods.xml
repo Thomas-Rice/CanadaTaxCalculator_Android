@@ -36,7 +36,7 @@
         app:layout_constraintTop_toBottomOf="@+id/calculateButton" />
 
     <Spinner
-        android:id="@+id/provincesSpinner2"
+        android:id="@+id/provincesSpinner"
         android:layout_width="303dp"
         android:layout_height="27dp"
         android:layout_marginStart="15dp"
@@ -46,7 +46,6 @@
         android:layout_marginRight="49dp"
         android:layout_marginBottom="17dp"
         android:addStatesFromChildren="false"
-        android:entries="@array/provinces"
         android:gravity="center"
         android:spinnerMode="dropdown"
         app:layout_constraintBottom_toTopOf="@+id/total"
@@ -68,7 +67,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/total"
-        app:layout_constraintTop_toBottomOf="@+id/provincesSpinner2"
+        app:layout_constraintTop_toBottomOf="@+id/provincesSpinner"
         app:layout_constraintVertical_bias="0.0">
 
         <TableRow
@@ -190,7 +189,7 @@
 
             <TextView
                 android:id="@+id/gstValue"
-                android:layout_width="79dp"
+                android:layout_width="112dp"
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:textColor="@android:color/background_dark"
@@ -251,7 +250,7 @@
         android:layout_marginRight="15dp"
         android:layout_marginBottom="15dp"
         app:layout_constraintBottom_toTopOf="@+id/total"
-        app:layout_constraintEnd_toStartOf="@+id/provincesSpinner2"
+        app:layout_constraintEnd_toStartOf="@+id/provincesSpinner"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@android:drawable/ic_menu_myplaces" />

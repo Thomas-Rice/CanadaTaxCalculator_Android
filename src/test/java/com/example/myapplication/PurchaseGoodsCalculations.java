@@ -19,7 +19,7 @@ public class PurchaseGoodsCalculations {
     @Test
     public void gstIsCorrectPositive(){
         PurchaseGoods purchaseGoods = new PurchaseGoods();
-        double result =  purchaseGoods.CalculateGST(100);
+        double result =  purchaseGoods.CalculateCanadaTax(100);
 
         assertEquals(5.0,result, 0  );
     }
@@ -27,28 +27,28 @@ public class PurchaseGoodsCalculations {
     @Test
     public void gstIsCorrectNegative(){
         PurchaseGoods purchaseGoods = new PurchaseGoods();
-        double result =  purchaseGoods.CalculateGST(-100);
+        double result =  purchaseGoods.CalculateCanadaTax(-100);
         assertEquals(0,result, 0  );
     }
 
     @Test
     public void gstIsCorrectMaxValue(){
         PurchaseGoods purchaseGoods = new PurchaseGoods();
-        double result =  purchaseGoods.CalculateGST(Double.MAX_VALUE);
+        double result =  purchaseGoods.CalculateCanadaTax(Double.MAX_VALUE);
         assertEquals(Double.MAX_VALUE * 0.05,result, 0  );
     }
 
     @Test
     public void gstIsCorrectMinValue(){
         PurchaseGoods purchaseGoods = new PurchaseGoods();
-        double result =  purchaseGoods.CalculateGST(Double.MIN_VALUE);
+        double result =  purchaseGoods.CalculateCanadaTax(Double.MIN_VALUE);
         assertEquals(0.0,result, 0  );
     }
 
     @Test
     public void qstIsCorrectPositive(){
         PurchaseGoods purchaseGoods = new PurchaseGoods();
-        double result =  purchaseGoods.CalculateQST(100);
+        double result =  purchaseGoods.CalculateProvinceTax(100);
 
         assertEquals(9.75,result, 0  );
     }
@@ -56,21 +56,21 @@ public class PurchaseGoodsCalculations {
     @Test
     public void qstIsCorrectNegative(){
         PurchaseGoods purchaseGoods = new PurchaseGoods();
-        double result =  purchaseGoods.CalculateQST(-100);
+        double result =  purchaseGoods.CalculateProvinceTax(-100);
         assertEquals(0,result, 0  );
     }
 
     @Test
     public void qstIsCorrectMaxValue(){
         PurchaseGoods purchaseGoods = new PurchaseGoods();
-        double result =  purchaseGoods.CalculateQST(Double.MAX_VALUE);
+        double result =  purchaseGoods.CalculateProvinceTax(Double.MAX_VALUE);
         assertEquals(Double.MAX_VALUE * 0.0975,result, 0  );
     }
 
     @Test
     public void qstIsCorrectMinValue(){
         PurchaseGoods purchaseGoods = new PurchaseGoods();
-        double result =  purchaseGoods.CalculateQST(Double.MIN_VALUE);
+        double result =  purchaseGoods.CalculateProvinceTax(Double.MIN_VALUE);
         assertEquals(0.0,result, 0  );
     }
 
