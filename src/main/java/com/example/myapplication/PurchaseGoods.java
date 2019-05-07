@@ -22,7 +22,7 @@ import java.util.Map;
 public class PurchaseGoods extends AppCompatActivity {
     private String total;
     private Boolean wasCalled = false;
-    private double inputValue;
+    private double inputValue = 0.0;
     private BillList billList;
     private double currencyConversionValue;
     private Map<String, String> taxes;
@@ -129,7 +129,7 @@ public class PurchaseGoods extends AppCompatActivity {
         //TODO don't keep converting back and forth
         double total = Double.parseDouble(billList.Total);
         double afterTax = Double.parseDouble(billItem.ValueAfterTax);
-        double newTotal = total += afterTax;
+        double newTotal = total + afterTax;
         billList.Total = String.format("%.2f", newTotal);
 
         SetBillTotalText();
@@ -138,7 +138,14 @@ public class PurchaseGoods extends AppCompatActivity {
     public void SetValues(View view) {
         TextView priceInputView = findViewById(R.id.priceInput);
 
-        inputValue = Double.parseDouble(priceInputView.getText().toString());
+        //This is to counteract error on startup
+        //Todo try to stop needing this
+        String priceInput = priceInputView.getText().toString();
+        if(!priceInput.equals(""))
+        {
+            inputValue = Double.parseDouble(priceInput);
+        }
+
 
         double gstValue = CalculateCanadaTax(inputValue);
         SetGSTText(gstValue);
