@@ -10,6 +10,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.PopupMenu;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -53,6 +55,7 @@ public class PurchaseGoods extends AppCompatActivity {
             billList.Total = "0";
         }
         SetBillTotalText();
+
     }
 
     private void LoadProvinces(JsonLoader jsonLoader) {
@@ -78,6 +81,26 @@ public class PurchaseGoods extends AppCompatActivity {
                     public void onNothingSelected(AdapterView<?> parent) { }
                 });
     }
+
+
+    public void showPopup(final View view){
+            Button tipButton = findViewById(R.id.AddTipButton);
+            //Creating the instance of PopupMenu
+            PopupMenu popup = new PopupMenu(PurchaseGoods.this, tipButton);
+            //Inflating the Popup using xml file
+            popup.getMenuInflater().inflate(R.menu.tip_popup, popup.getMenu());
+
+            //registering popup with OnMenuItemClickListener
+            popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                public boolean onMenuItemClick(MenuItem item) {
+                    SetTotalWithTipText(item.getTitle().toString());
+                    SetGBPText();
+                    return true;
+                }
+            });
+
+            popup.show();//showing popup menu
+        }
 
     private void SetConversionRates(String gbp, JsonLoader jsonLoader) {
         conversionRates = jsonLoader.GetRates();
@@ -135,6 +158,8 @@ public class PurchaseGoods extends AppCompatActivity {
         SetBillTotalText();
     }
 
+
+
     public void SetValues(View view) {
         TextView priceInputView = findViewById(R.id.priceInput);
 
@@ -146,12 +171,11 @@ public class PurchaseGoods extends AppCompatActivity {
             inputValue = Double.parseDouble(priceInput);
         }
 
-
         double gstValue = CalculateCanadaTax(inputValue);
-        SetGSTText(gstValue);
+        SetProvinceText(gstValue);
 
         double qstValue = CalculateProvinceTax(inputValue, province);
-        SetQSTText(qstValue);
+        SetCanadaText(qstValue);
 
         total = CalculateTotal(inputValue, gstValue, qstValue);
         SetTotalText(total);
@@ -163,16 +187,22 @@ public class PurchaseGoods extends AppCompatActivity {
         billTotalText.setText(billList.Total);
     }
 
-    public void SetTotalWithTipText(View view){
-        double tip =  CalculateAddTip();
+    public void SetTotalWithTipText(String percentage){
+        double tip =  CalculateAddTip(percentage);
         total = String.format("%.2f", tip);
         SetTotalText(total);
     }
 
     //TODO add the option to choose tip amount
-    public double CalculateAddTip(){
+    public double CalculateAddTip(String tipValue){
         double totalValue = Double.parseDouble(total);
-        return totalValue * 1.1;
+        String tip = tipValue.replace("%", "");
+        double tipPercent = ConvertTipPercentageToValue(tip) + 1;
+        return totalValue * tipPercent;
+    }
+
+    private double ConvertTipPercentageToValue(String tipValue) {
+        return Double.parseDouble(tipValue)/100;
     }
 
     public void SetGBPText(){
@@ -212,14 +242,14 @@ public class PurchaseGoods extends AppCompatActivity {
         return result;
     }
 
-    public void SetGSTText(double inputValue){
-        TextView gstview = findViewById(R.id.gstValue);
-        gstview.setText(Double.toString(inputValue));
+    public void SetProvinceText(double inputValue){
+        TextView provinceValueView = findViewById(R.id.provinceValue);
+        provinceValueView.setText("$" + Double.toString(inputValue));
     }
 
-    public void SetQSTText(double inputValue){
-        TextView qstview = findViewById(R.id.qstValue);
-        qstview.setText(Double.toString(inputValue));
+    public void SetCanadaText(double inputValue){
+        TextView canadaValueView = findViewById(R.id.canadaValue);
+        canadaValueView.setText("$" + Double.toString(inputValue));
     }
 
     public void SetTotalText(String inputString){

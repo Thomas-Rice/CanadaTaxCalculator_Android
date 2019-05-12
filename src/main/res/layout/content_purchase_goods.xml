@@ -139,7 +139,7 @@
         android:layout_height="39dp"
         android:layout_marginTop="24dp"
         android:gravity="center"
-        android:onClick="SetTotalWithTipText"
+        android:onClick="showPopup"
         android:text="@string/add_tip_button_text"
         app:layout_constraintEnd_toStartOf="@+id/addToBillButton"
         app:layout_constraintHorizontal_bias="0.5"
@@ -177,7 +177,7 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/gstText"
+                android:id="@+id/provinceText"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:gravity="center"
@@ -188,7 +188,7 @@
                 tools:layout_editor_absoluteY="227dp" />
 
             <TextView
-                android:id="@+id/gstValue"
+                android:id="@+id/provinceValue"
                 android:layout_width="112dp"
                 android:layout_height="match_parent"
                 android:gravity="center"
@@ -198,7 +198,7 @@
                 tools:layout_editor_absoluteY="306dp" />
 
             <TextView
-                android:id="@+id/qstText"
+                android:id="@+id/canadaText"
                 android:layout_width="wrap_content"
                 android:layout_height="29dp"
                 android:gravity="center"
@@ -209,7 +209,7 @@
                 tools:layout_editor_absoluteY="227dp" />
 
             <TextView
-                android:id="@+id/qstValue"
+                android:id="@+id/canadaValue"
                 android:layout_width="112dp"
                 android:layout_height="match_parent"
                 android:gravity="center"
