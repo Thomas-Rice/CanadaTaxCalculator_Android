@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/blackBackground"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".PurchaseGoods"
     tools:showIn="@layout/activity_purchase_goods">
@@ -12,63 +13,57 @@
         android:id="@+id/BillTotalValue"
         android:layout_width="89dp"
         android:layout_height="41dp"
-        android:layout_marginTop="263dp"
+        android:layout_marginTop="7dp"
         android:layout_marginEnd="233dp"
         android:layout_marginRight="233dp"
-        android:layout_marginBottom="27dp"
-        app:layout_constraintBottom_toTopOf="@+id/BottomNavigation"
+        android:layout_marginBottom="4dp"
+        android:gravity="center"
+        android:textColor="@android:color/background_light"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/BillTotal"
-        app:layout_constraintTop_toBottomOf="@+id/AddTipButton"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/TaxCalculationTableLayout" />
+
+    <ImageView
+        android:id="@+id/MiddleCircle"
+        android:layout_width="302dp"
+        android:layout_height="287dp"
+        android:layout_marginTop="25dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tabLayout"
+        app:srcCompat="@drawable/middlecircle" />
 
     <Button
         android:id="@+id/addToBillButton"
-        android:layout_width="142dp"
-        android:layout_height="39dp"
-        android:layout_marginTop="24dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="176dp"
+        android:layout_marginEnd="7dp"
+        android:layout_marginRight="7dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/roundbuttonwithplus"
         android:gravity="center"
         android:onClick="CreateBillItem"
-        android:text="@string/add_to_bill_button_text"
+        android:textColor="@android:color/background_light"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/AddTipButton"
-        app:layout_constraintTop_toBottomOf="@+id/calculateButton" />
-
-    <Spinner
-        android:id="@+id/provincesSpinner"
-        android:layout_width="303dp"
-        android:layout_height="27dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="49dp"
-        android:layout_marginRight="49dp"
-        android:layout_marginBottom="17dp"
-        android:addStatesFromChildren="false"
-        android:gravity="center"
-        android:spinnerMode="dropdown"
-        app:layout_constraintBottom_toTopOf="@+id/total"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/CurrencyIcon"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintHorizontal_bias="0.973"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TableLayout
         android:id="@+id/CurrencyTableLayout"
         android:layout_width="95dp"
         android:layout_height="53dp"
-        android:layout_marginStart="9dp"
-        android:layout_marginLeft="9dp"
-        android:layout_marginTop="56dp"
-        android:layout_marginEnd="17dp"
-        android:layout_marginRight="17dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/TaxCalculationTableLayout"
+        android:layout_marginEnd="156dp"
+        android:layout_marginRight="156dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/total"
-        app:layout_constraintTop_toBottomOf="@+id/provincesSpinner"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.474">
 
         <TableRow
             android:layout_width="match_parent"
@@ -80,7 +75,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="GBP: "
-                android:textColor="@android:color/background_dark"
+                android:textColor="@android:color/background_light"
                 tools:layout_editor_absoluteX="29dp"
                 tools:layout_editor_absoluteY="227dp" />
 
@@ -89,7 +84,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:textColor="@android:color/background_dark"
+                android:textColor="@android:color/background_light"
                 tools:layout_editor_absoluteX="218dp"
                 tools:layout_editor_absoluteY="306dp" />
         </TableRow>
@@ -100,77 +95,74 @@
         android:id="@+id/priceInput"
         android:layout_width="378dp"
         android:layout_height="74dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="21dp"
+        android:layout_marginLeft="21dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="12dp"
         android:layout_marginRight="12dp"
-        android:layout_marginBottom="14dp"
         android:autofillHints=""
         android:ems="10"
         android:gravity="center"
         android:hint="@string/enter_price_title"
         android:inputType="numberDecimal"
-        android:textColor="@android:color/background_dark"
-        app:layout_constraintBottom_toTopOf="@+id/calculateButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view2" />
-
-    <Button
-        android:id="@+id/calculateButton"
-        android:layout_width="378dp"
-        android:layout_height="61dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="14dp"
-        android:layout_marginEnd="17dp"
-        android:layout_marginRight="17dp"
-        android:onClick="SetValues"
-        android:text="@string/calculate_button_text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/priceInput" />
-
-    <Button
-        android:id="@+id/AddTipButton"
-        android:layout_width="142dp"
-        android:layout_height="39dp"
-        android:layout_marginTop="24dp"
-        android:gravity="center"
-        android:onClick="showPopup"
-        android:text="@string/add_tip_button_text"
-        app:layout_constraintEnd_toStartOf="@+id/addToBillButton"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/calculateButton" />
-
-    <View
-        android:id="@+id/view2"
-        style="@style/Divider"
-        android:layout_height="2dp"
-        android:layout_marginTop="8dp"
-        android:background="@android:color/darker_gray"
+        android:shadowColor="@android:color/background_light"
+        android:textColor="@android:color/background_light"
+        android:textColorHint="@android:color/background_light"
+        android:textColorLink="@android:color/background_light"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TaxCalculationTableLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/MiddleCircle" />
+
+    <Button
+        android:id="@+id/calculateButton"
+        android:layout_width="317dp"
+        android:layout_height="61dp"
+        android:layout_marginTop="27dp"
+        android:layout_marginBottom="124dp"
+        android:background="@drawable/bigroundbutton"
+        android:onClick="SetValues"
+        android:text="@string/calculate_button_text"
+        android:textColor="@android:color/background_light"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/priceInput"
+        app:layout_constraintVertical_bias="0.539" />
+
+    <Button
+        android:id="@+id/AddTipButton"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="356dp"
+        android:layout_marginEnd="7dp"
+        android:layout_marginRight="7dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/roundbuttonwithplus"
+        android:gravity="center"
+        android:onClick="showPopup"
+        android:textColor="@android:color/background_light"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.973"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TableLayout
         android:id="@+id/TaxCalculationTableLayout"
-        android:layout_width="364dp"
+        android:layout_width="334dp"
         android:layout_height="38dp"
-        android:layout_marginStart="19dp"
-        android:layout_marginLeft="19dp"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="28dp"
-        android:layout_marginRight="28dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/view2"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="34dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginRight="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/total">
+        app:layout_constraintTop_toBottomOf="@+id/calculateButton">
 
         <TableRow
             android:layout_width="216dp"
@@ -182,7 +174,7 @@
                 android:layout_height="30dp"
                 android:gravity="center"
                 android:text="@string/gst_text"
-                android:textColor="@android:color/background_dark"
+                android:textColor="@android:color/background_light"
                 app:autoSizeTextType="uniform"
                 tools:layout_editor_absoluteX="29dp"
                 tools:layout_editor_absoluteY="227dp" />
@@ -192,7 +184,7 @@
                 android:layout_width="112dp"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:textColor="@android:color/background_dark"
+                android:textColor="@android:color/background_light"
                 app:autoSizeTextType="uniform"
                 tools:layout_editor_absoluteX="218dp"
                 tools:layout_editor_absoluteY="306dp" />
@@ -203,7 +195,7 @@
                 android:layout_height="29dp"
                 android:gravity="center"
                 android:text="@string/qst_text"
-                android:textColor="@android:color/background_dark"
+                android:textColor="@android:color/background_light"
                 app:autoSizeTextType="uniform"
                 tools:layout_editor_absoluteX="29dp"
                 tools:layout_editor_absoluteY="227dp" />
@@ -213,7 +205,7 @@
                 android:layout_width="112dp"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:textColor="@android:color/background_dark"
+                android:textColor="@android:color/background_light"
                 app:autoSizeTextType="uniform"
                 tools:layout_editor_absoluteX="218dp"
                 tools:layout_editor_absoluteY="395dp" />
@@ -224,18 +216,18 @@
 
     <TextView
         android:id="@+id/total"
-        android:layout_width="269dp"
+        android:layout_width="316dp"
         android:layout_height="90dp"
-        android:layout_marginStart="21dp"
-        android:layout_marginLeft="21dp"
-        android:layout_marginTop="49dp"
+        android:layout_marginTop="240dp"
         android:gravity="center"
         android:text="$0"
-        android:textColor="@android:color/background_dark"
+        android:textColor="@android:color/background_light"
         android:textSize="80sp"
         app:autoSizeMaxTextSize="80dp"
         app:autoSizeMinTextSize="10dp"
         app:autoSizeTextType="uniform"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.568"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -243,46 +235,73 @@
         android:id="@+id/CurrencyIcon"
         android:layout_width="31dp"
         android:layout_height="29dp"
-        android:layout_marginStart="13dp"
-        android:layout_marginLeft="13dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginBottom="15dp"
-        app:layout_constraintBottom_toTopOf="@+id/total"
-        app:layout_constraintEnd_toStartOf="@+id/provincesSpinner"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@android:drawable/ic_menu_myplaces" />
 
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/BottomNavigation"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:clickable="false"
-        app:itemBackground="@color/colorPrimary"
-        app:itemIconTint="@drawable/selector"
-        app:itemTextColor="@drawable/selector"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:menu="@menu/bottom_bar" />
+    <Spinner
+        android:id="@+id/provincesSpinner"
+        android:layout_width="303dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="54dp"
+        android:layout_marginLeft="54dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="23dp"
+        android:layout_marginRight="23dp"
+        android:layout_marginBottom="17dp"
+        android:gravity="center"
+        android:spinnerMode="dropdown"
+        android:textColor="@android:color/background_light"
+        app:layout_constraintBottom_toTopOf="@+id/tabLayout"
+        app:layout_constraintEnd_toStartOf="@+id/CurrencyIcon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/BillTotal"
         android:layout_width="89dp"
         android:layout_height="41dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="263dp"
-        android:layout_marginBottom="28dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginBottom="4dp"
+        android:gravity="center"
         android:text="Bill Total"
-        app:layout_constraintBottom_toTopOf="@+id/BottomNavigation"
-        app:layout_constraintEnd_toStartOf="@+id/BillTotalValue"
+        android:textColor="@android:color/background_light"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/AddTipButton" />
+        app:layout_constraintTop_toBottomOf="@+id/TaxCalculationTableLayout" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="414dp"
+        android:layout_height="57dp"
+        android:layout_marginTop="60dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tabIndicatorColor="@android:color/background_light"
+        app:tabTextColor="@android:color/background_light"
+        app:tabGravity="fill"
+        app:tabMode="fixed">
+
+        <android.support.design.widget.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Calculator" />
+
+        <android.support.design.widget.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bills" />
+
+    </android.support.design.widget.TabLayout>
 
 
 </android.support.constraint.ConstraintLayout>

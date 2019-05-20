@@ -1,11 +1,11 @@
 package com.example.myapplication;
 
 
+import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -36,7 +36,8 @@ public class PurchaseGoods extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_purchase_goods);
-        BottomNavigationViewBehaviour();
+//        BottomNavigationViewBehaviour();
+        tabSetup();
 
         JsonLoader jsonLoader = new JsonLoader(this);
         SetConversionRates("GBP", jsonLoader);
@@ -58,6 +59,38 @@ public class PurchaseGoods extends AppCompatActivity {
 
     }
 
+    public void tabSetup(){
+        TabLayout tabLayout = findViewById(R.id.tabLayout);
+        final Context test = getApplicationContext();
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                switch(tab.getPosition()) {
+                    case 0:
+                        Toast.makeText(test, "Text", Toast.LENGTH_SHORT);
+                        Intent intent = new Intent(PurchaseGoods.this, BillActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("test", billList);
+                        intent.putExtras(bundle);
+                        startActivity(intent);
+                        break;
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+    }
+
+
+
     private void LoadProvinces(JsonLoader jsonLoader) {
         Spinner provinceSpinner = findViewById(R.id.provincesSpinner);
         taxes = jsonLoader.GetProvinceTaxes();
@@ -74,7 +107,6 @@ public class PurchaseGoods extends AppCompatActivity {
                     public void onItemSelected(
                             AdapterView<?> parent, View view, int position, long id) {
                                 province = provinces.get(position);
-                                Toast.makeText(getApplicationContext(), taxes.get(province), Toast.LENGTH_SHORT).show();
                                 SetValues(view);
                     }
 
@@ -119,26 +151,26 @@ public class PurchaseGoods extends AppCompatActivity {
         wasCalled = savedInstanceState.getBoolean("wasCalled");
     }
 
-    public void BottomNavigationViewBehaviour(){
-        BottomNavigationView bottomNavigationView = findViewById(R.id.BottomNavigation);
-
-        bottomNavigationView.setOnNavigationItemSelectedListener(
-                new BottomNavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                        switch (item.getItemId()) {
-                            case R.id.bill:
-                                Intent intent = new Intent(PurchaseGoods.this, BillActivity.class);
-                                Bundle bundle = new Bundle();
-                                bundle.putSerializable("test", billList);
-                                intent.putExtras(bundle);
-                                startActivity(intent);
-                                break;
-                        }
-                        return true;
-                    }
-                });
-    }
+//    public void BottomNavigationViewBehaviour(){
+//        BottomNavigationView bottomNavigationView = findViewById(R.id.BottomNavigation);
+//
+//        bottomNavigationView.setOnNavigationItemSelectedListener(
+//                new BottomNavigationView.OnNavigationItemSelectedListener() {
+//                    @Override
+//                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+//                        switch (item.getItemId()) {
+//                            case R.id.bill:
+//                                Intent intent = new Intent(PurchaseGoods.this, BillActivity.class);
+//                                Bundle bundle = new Bundle();
+//                                bundle.putSerializable("test", billList);
+//                                intent.putExtras(bundle);
+//                                startActivity(intent);
+//                                break;
+//                        }
+//                        return true;
+//                    }
+//                });
+//    }
 
     public void CreateBillItem(View view){
         int size = billList.Bills.size() + 1;
