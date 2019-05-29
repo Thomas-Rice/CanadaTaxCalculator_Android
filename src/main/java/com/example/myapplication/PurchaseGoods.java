@@ -1,10 +1,10 @@
 package com.example.myapplication;
 
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,7 +14,6 @@ import android.widget.Button;
 import android.widget.PopupMenu;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,12 +31,15 @@ public class PurchaseGoods extends AppCompatActivity {
     private Map<String, String> conversionRates;
     private String province;
 
+    private SectionsPageAdapter mSectionsPageAdapter;
+    private ViewPager viewPager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_purchase_goods);
+        setContentView(R.layout.background);
 //        BottomNavigationViewBehaviour();
-        tabSetup();
+//        tabSetup();
 
         JsonLoader jsonLoader = new JsonLoader(this);
         SetConversionRates("GBP", jsonLoader);
@@ -55,51 +57,59 @@ public class PurchaseGoods extends AppCompatActivity {
             billList.Bills = new ArrayList<>();
             billList.Total = "0";
         }
-        SetBillTotalText();
+//        SetBillTotalText();
 
-    }
 
-    public void tabSetup(){
+        mSectionsPageAdapter = new SectionsPageAdapter(getSupportFragmentManager());
+
+        viewPager = findViewById(R.id.view_pager);
+        setupViewPager(viewPager);
+
         TabLayout tabLayout = findViewById(R.id.tabLayout);
-        final Context test = getApplicationContext();
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                switch(tab.getPosition()) {
-                    case 0:
-                        Toast.makeText(test, "Text", Toast.LENGTH_SHORT);
-                        Intent intent = new Intent(PurchaseGoods.this, BillActivity.class);
-                        Bundle bundle = new Bundle();
-                        bundle.putSerializable("test", billList);
-                        intent.putExtras(bundle);
-                        startActivity(intent);
-                        break;
-                }
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
+        tabLayout.setupWithViewPager(viewPager);
     }
+
+//    public void tabSetup(){
+//        TabLayout tabLayout = findViewById(R.id.tabLayout);
+//        final Context test = getApplicationContext();
+//        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+//            @Override
+//            public void onTabSelected(TabLayout.Tab tab) {
+//                switch(tab.getPosition()) {
+//                    case 0:
+//                        Toast.makeText(test, "Text", Toast.LENGTH_SHORT);
+//                        Intent intent = new Intent(PurchaseGoods.this, BillActivity.class);
+//                        Bundle bundle = new Bundle();
+//                        bundle.putSerializable("test", billList);
+//                        intent.putExtras(bundle);
+//                        startActivity(intent);
+//                        break;
+//                }
+//            }
+//
+//            @Override
+//            public void onTabUnselected(TabLayout.Tab tab) {
+//
+//            }
+//
+//            @Override
+//            public void onTabReselected(TabLayout.Tab tab) {
+//
+//            }
+//        });
+//    }
 
 
 
     private void LoadProvinces(JsonLoader jsonLoader) {
-        Spinner provinceSpinner = findViewById(R.id.provincesSpinner);
+        Spinner provinceSpinner = findViewById(R.id.provincesSpinner3);
         taxes = jsonLoader.GetProvinceTaxes();
         countryTax = jsonLoader.GetCountryTax();
         final List<String> provinces = new ArrayList(taxes.keySet());
 
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, provinces);
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                R.layout.spinneritem, provinces);
+        dataAdapter.setDropDownViewResource(R.layout.spinneritem);
         provinceSpinner.setAdapter(dataAdapter);
 
         provinceSpinner.setOnItemSelectedListener(
@@ -112,6 +122,7 @@ public class PurchaseGoods extends AppCompatActivity {
 
                     public void onNothingSelected(AdapterView<?> parent) { }
                 });
+
     }
 
 
@@ -314,5 +325,12 @@ public class PurchaseGoods extends AppCompatActivity {
             return true;
         }
         return false;
+    }
+
+    public void setupViewPager(ViewPager viewPager){
+        SectionsPageAdapter adapter = new SectionsPageAdapter(getSupportFragmentManager());
+        adapter.AddFragment(new MainPageFragment(), "Converter");
+        adapter.AddFragment(new BillFragment(), "Bill");
+        viewPager.setAdapter(adapter);
     }
 }
