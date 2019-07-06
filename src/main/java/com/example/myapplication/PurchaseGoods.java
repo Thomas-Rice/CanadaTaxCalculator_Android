@@ -1,6 +1,7 @@
 package com.example.myapplication;
 
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -21,28 +23,29 @@ import java.util.Map;
 
 
 public class PurchaseGoods extends AppCompatActivity {
-    private String total;
+    private String total = "0.00";
     private Boolean wasCalled = false;
     private double inputValue = 0.0;
     private BillList billList;
+    private double currencyConversionRate;
+    private String currencyConversionCountry;
     private double currencyConversionValue;
     private Map<String, String> taxes;
     private double countryTax;
     private Map<String, String> conversionRates;
     private String province;
+    private JsonLoader jsonLoader;
 
     private SectionsPageAdapter mSectionsPageAdapter;
     private ViewPager viewPager;
+    private SharedViewModel mViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.background);
-//        BottomNavigationViewBehaviour();
-//        tabSetup();
 
-        JsonLoader jsonLoader = new JsonLoader(this);
-        SetConversionRates("GBP", jsonLoader);
+        jsonLoader = new JsonLoader(this);
         LoadProvinces(jsonLoader);
 
         Intent intent = this.getIntent();
@@ -57,7 +60,6 @@ public class PurchaseGoods extends AppCompatActivity {
             billList.Bills = new ArrayList<>();
             billList.Total = "0";
         }
-//        SetBillTotalText();
 
 
         mSectionsPageAdapter = new SectionsPageAdapter(getSupportFragmentManager());
@@ -67,38 +69,9 @@ public class PurchaseGoods extends AppCompatActivity {
 
         TabLayout tabLayout = findViewById(R.id.tabLayout);
         tabLayout.setupWithViewPager(viewPager);
+
+        mViewModel = ViewModelProviders.of(this).get(SharedViewModel.class);
     }
-
-//    public void tabSetup(){
-//        TabLayout tabLayout = findViewById(R.id.tabLayout);
-//        final Context test = getApplicationContext();
-//        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-//            @Override
-//            public void onTabSelected(TabLayout.Tab tab) {
-//                switch(tab.getPosition()) {
-//                    case 0:
-//                        Toast.makeText(test, "Text", Toast.LENGTH_SHORT);
-//                        Intent intent = new Intent(PurchaseGoods.this, BillActivity.class);
-//                        Bundle bundle = new Bundle();
-//                        bundle.putSerializable("test", billList);
-//                        intent.putExtras(bundle);
-//                        startActivity(intent);
-//                        break;
-//                }
-//            }
-//
-//            @Override
-//            public void onTabUnselected(TabLayout.Tab tab) {
-//
-//            }
-//
-//            @Override
-//            public void onTabReselected(TabLayout.Tab tab) {
-//
-//            }
-//        });
-//    }
-
 
 
     private void LoadProvinces(JsonLoader jsonLoader) {
@@ -117,14 +90,50 @@ public class PurchaseGoods extends AppCompatActivity {
                     public void onItemSelected(
                             AdapterView<?> parent, View view, int position, long id) {
                                 province = provinces.get(position);
-                                SetValues(view);
+//                                SetValues(view);
                     }
 
                     public void onNothingSelected(AdapterView<?> parent) { }
                 });
-
     }
 
+    public void showPopupCurrencyConversion(View view){
+        ImageView currencyButton = findViewById(R.id.currencyIcon);
+        //Creating the instance of PopupMenu
+        PopupMenu popup = new PopupMenu(PurchaseGoods.this, currencyButton);
+
+        conversionRates = jsonLoader.GetRates();
+        for (String rate : conversionRates.keySet())
+        {
+            popup.getMenu().add(0, 0,0, rate);
+        }
+
+        popup.getMenuInflater().inflate(R.menu.currency_popup, popup.getMenu());
+
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            public boolean onMenuItemClick(MenuItem item) {
+                currencyConversionRate = Double.parseDouble(conversionRates.get(item.toString()));
+                currencyConversionCountry = item.toString();
+
+                SetSelectedCurrencyText();
+                return true;
+            }
+        });
+        popup.show();
+    }
+
+    private void SetSelectedCurrencyText() {
+        TextView currencyText = findViewById(R.id.currencyText);
+        currencyText.setVisibility(View.VISIBLE);
+        currencyText.setText(currencyConversionCountry + ":");
+
+        TextView currencyValue = findViewById(R.id.currencyValue);
+        if(currencyConversionCountry != null)
+        {
+            setCurrencyValueText();
+            currencyValue.setVisibility(View.VISIBLE);
+        }
+    }
 
     public void showPopup(final View view){
             Button tipButton = findViewById(R.id.AddTipButton);
@@ -137,18 +146,13 @@ public class PurchaseGoods extends AppCompatActivity {
             popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                 public boolean onMenuItemClick(MenuItem item) {
                     SetTotalWithTipText(item.getTitle().toString());
-                    SetGBPText();
+                    setCurrencyValueText();
                     return true;
                 }
             });
 
             popup.show();//showing popup menu
         }
-
-    private void SetConversionRates(String gbp, JsonLoader jsonLoader) {
-        conversionRates = jsonLoader.GetRates();
-        currencyConversionValue = Double.parseDouble(conversionRates.get(gbp));
-    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -162,35 +166,15 @@ public class PurchaseGoods extends AppCompatActivity {
         wasCalled = savedInstanceState.getBoolean("wasCalled");
     }
 
-//    public void BottomNavigationViewBehaviour(){
-//        BottomNavigationView bottomNavigationView = findViewById(R.id.BottomNavigation);
-//
-//        bottomNavigationView.setOnNavigationItemSelectedListener(
-//                new BottomNavigationView.OnNavigationItemSelectedListener() {
-//                    @Override
-//                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-//                        switch (item.getItemId()) {
-//                            case R.id.bill:
-//                                Intent intent = new Intent(PurchaseGoods.this, BillActivity.class);
-//                                Bundle bundle = new Bundle();
-//                                bundle.putSerializable("test", billList);
-//                                intent.putExtras(bundle);
-//                                startActivity(intent);
-//                                break;
-//                        }
-//                        return true;
-//                    }
-//                });
-//    }
-
     public void CreateBillItem(View view){
         int size = billList.Bills.size() + 1;
         Bill billItem = new Bill();
         billItem.OriginalValue = Double.toString(inputValue);
         billItem.id = size;
         billItem.ValueAfterTax = total;
-        billItem.CurrencyConvertedValue = "£15";
+        billItem.CurrencyConvertedValue = currencyConversionValue;
         billList.Bills.add(billItem);
+        mViewModel.AddToBillList(billItem);
 
         //TODO don't keep converting back and forth
         double total = Double.parseDouble(billList.Total);
@@ -222,12 +206,12 @@ public class PurchaseGoods extends AppCompatActivity {
 
         total = CalculateTotal(inputValue, gstValue, qstValue);
         SetTotalText(total);
-        SetGBPText();
+        setCurrencyValueText();
     }
 
     public void SetBillTotalText(){
         TextView billTotalText = findViewById(R.id.BillTotalValue);
-        billTotalText.setText(billList.Total);
+        billTotalText.setText(mViewModel.GetTotal());
     }
 
     public void SetTotalWithTipText(String percentage){
@@ -248,22 +232,17 @@ public class PurchaseGoods extends AppCompatActivity {
         return Double.parseDouble(tipValue)/100;
     }
 
-    public void SetGBPText(){
+    public void setCurrencyValueText(){
         TextView currencyValue = findViewById(R.id.currencyValue);
-        double value = ConvertGBP();
+        double value = ConvertCurrency();
         currencyValue.setText(String.format("%.2f", value));
     }
 
-    public double ConvertGBP(){
-        return Double.parseDouble(total) * currencyConversionValue;
+    public double ConvertCurrency(){
+        return Double.parseDouble(total) * currencyConversionRate;
     }
 
     public String CalculateTotal(double inputValue, double gstValue, double qstValue) {
-//        if (CheckIfValuesAreGreaterThanMaxValue(inputValue, gstValue, qstValue))
-//            return Double.toString(0.0);
-//        if (CheckIfGreaterThanZero(inputValue, gstValue, qstValue))
-//            return Double.toString(0.0);
-
         double result = inputValue +  gstValue + qstValue;
 
         return String.format("%.2f", result);
